@@ -1,4 +1,3 @@
-
 import { Request, Response } from "express";
 import { UserService } from "../services/UserService";
 
@@ -8,15 +7,14 @@ const userService = new UserService();
 
 class UserController {
   async create(request: Request, response: Response): Promise<Response> {
-    try{
-    const userData = request.body as User
-    const user = await userService.create(userData)
+    try {
+      const userData = request.body as User;
+      const user = await userService.create(userData);
 
-    return response.status(200).json(user)
-
+      return response.status(200).json(user);
     } catch (error: any) {
-      if (error.code = "P2002"){
-        return response.status(400).json({data: "username alredy exists"})
+      if ((error.code = "P2002")) {
+        return response.status(400).json({ data: "username alredy exists" });
       }
 
       return response.status(500);
@@ -24,9 +22,11 @@ class UserController {
   }
 
   async getByUsername(request: Request, response: Response): Promise<Response> {
-    try{
-      return response.status(200).json(await userService.getByUsername(request.params.username))
-    }catch (error) {
+    try {
+      return response
+        .status(200)
+        .json(await userService.getByUsername(request.params.username));
+    } catch (error) {
       return response.status(500).json(error);
     }
   }

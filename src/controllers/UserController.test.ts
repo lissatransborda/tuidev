@@ -5,13 +5,11 @@ import { User } from "../entities/User";
 describe("test user create", () => {
   test("It should response the POST method with the created user", async () => {
     const randomUser = `test_username_${Math.random()}`;
-    const newUser = await request(app)
-      .post("/user")
-      .send({
-        username: randomUser,
-        password: "test_password",
-        name: "test_name",
-      });
+    const newUser = await request(app).post("/user").send({
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+    });
 
     expect(newUser.body).toHaveProperty("id");
     expect(newUser.body).toHaveProperty("username", randomUser);

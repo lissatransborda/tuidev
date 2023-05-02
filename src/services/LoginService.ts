@@ -25,8 +25,8 @@ class LoginService {
         []
       );
       return jwt.sign({ ...returnedUser }, JWT_PRIVATE_KEY);
-    }else{
-      return null
+    } else {
+      return null;
     }
   }
 }

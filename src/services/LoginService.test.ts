@@ -1,5 +1,5 @@
 require("dotenv").config();
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 import { LoginService } from "./LoginService";
 import { UserService } from "./UserService";
@@ -25,15 +25,15 @@ describe("Test LoginService", () => {
 
     const userCreated = await userService.create(user);
 
-    const login = new Login(randomUser, "test_password")
-    const loginData = await loginService.login(login)
+    const login = new Login(randomUser, "test_password");
+    const loginData = await loginService.login(login);
 
-    const result = await jwt.verify(loginData, JWT_PRIVATE_KEY)
+    const result = await jwt.verify(loginData, JWT_PRIVATE_KEY);
 
-    expect(result).toHaveProperty("id")
-    expect(result).toHaveProperty("username")
-    expect(result).toHaveProperty("name")
-    expect(result).toHaveProperty("iat")
+    expect(result).toHaveProperty("id");
+    expect(result).toHaveProperty("username");
+    expect(result).toHaveProperty("name");
+    expect(result).toHaveProperty("iat");
   });
 
   test("It should return null with the wrong password", async () => {
@@ -51,10 +51,10 @@ describe("Test LoginService", () => {
 
     const userCreated = await userService.create(user);
 
-    const login = new Login(randomUser, "wrong_password")
-    const loginData = await loginService.login(login)
+    const login = new Login(randomUser, "wrong_password");
+    const loginData = await loginService.login(login);
 
-    expect(loginData).toBeNull
+    expect(loginData).toBeNull;
   });
 
   test("It should return null with the wrong username", async () => {
@@ -72,9 +72,9 @@ describe("Test LoginService", () => {
 
     const userCreated = await userService.create(user);
 
-    const login = new Login("wrong_user", "test_password")
-    const loginData = await loginService.login(login)
+    const login = new Login("wrong_user", "test_password");
+    const loginData = await loginService.login(login);
 
-    expect(loginData).toBeNull
+    expect(loginData).toBeNull;
   });
 });

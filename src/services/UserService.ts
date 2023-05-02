@@ -1,4 +1,4 @@
-const argon2 = require('argon2');
+const argon2 = require("argon2");
 
 import { UserRepository } from "../repositories/UserRepository";
 import { User } from "../entities/User";
@@ -7,7 +7,7 @@ const userRepository = new UserRepository();
 
 class UserService {
   async create(user: User) {
-    user.password = await argon2.hash(user.password)
+    user.password = await argon2.hash(user.password);
     const userDB = await userRepository.create(user);
 
     return new PublicUser(userDB.id, userDB.username, userDB.name, []);
@@ -31,8 +31,7 @@ class UserService {
     }
 
     return new PublicUser(userDB.id, userDB.username, userDB.name, []);
-
-}
+  }
 
   async getByUsername(username: string) {
     const userDB = await userRepository.getByUsername(username);
@@ -42,8 +41,7 @@ class UserService {
     }
 
     return new PublicUser(userDB.id, userDB.username, userDB.name, []);
-
-}
+  }
 }
 
 export { UserService };

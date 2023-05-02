@@ -6,20 +6,16 @@ describe("test article create", () => {
   test("It should response the POST method with the created article", async () => {
     const randomUser = `test_username_${Math.random()}`;
 
-    const newUser = await request(app)
-      .post("/user")
-      .send({
-        username: randomUser,
-        password: "test_password",
-        name: "test_name",
-      });
+    const newUser = await request(app).post("/user").send({
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+    });
 
-    const jwtData = await request(app)
-      .post("/login")
-      .send({
-        username: randomUser,
-        password: "test_password",
-      });
+    const jwtData = await request(app).post("/login").send({
+      username: randomUser,
+      password: "test_password",
+    });
 
     const articleTitle = "test_title";
 
@@ -29,7 +25,8 @@ describe("test article create", () => {
         title: articleTitle,
         body: "test_body",
         authorId: newUser.body.id,
-      }).set("Authorization", jwtData.body.data);
+      })
+      .set("Authorization", jwtData.body.data);
 
     expect(newArticle.body).toHaveProperty("id");
     expect(newArticle.body).toHaveProperty("title", "test_title");

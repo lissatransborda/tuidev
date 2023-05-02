@@ -22,6 +22,18 @@ class UserService {
 
     return usersReturned;
   }
+
+  async getById(id: string) {
+    const userDB = await userRepository.getById(id);
+
+    if (!userDB) {
+      return null;
+    }
+
+    return new PublicUser(userDB.id, userDB.username, userDB.name, []);
+
+}
+
   async getByUsername(username: string) {
     const userDB = await userRepository.getByUsername(username);
 
@@ -31,6 +43,7 @@ class UserService {
 
     return new PublicUser(userDB.id, userDB.username, userDB.name, []);
 
-}}
+}
+}
 
 export { UserService };

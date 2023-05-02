@@ -19,6 +19,13 @@ class UserRepository {
     return user;
   }
 
+  async getById(id: string) {
+    return await prisma.user.findUnique({
+      where: { id: id },
+      include: { articles: true },
+    });
+  }
+
   async getByUsername(username: string) {
     return await prisma.user.findUnique({
       where: { username: username },

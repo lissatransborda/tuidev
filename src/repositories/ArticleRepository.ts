@@ -14,7 +14,7 @@ class ArticleRepository {
         url: articleData.url,
         author: {
           connect: {
-            username: articleData.authorUsername,
+            id: articleData.authorId,
           },
         },
       },

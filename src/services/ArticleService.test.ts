@@ -25,7 +25,7 @@ describe("Test ArticleService", () => {
     const article = new Article(
       uuidv4(),
       user,
-      userCreated.username,
+      userCreated.id,
       "test_title",
       "test_body",
       url

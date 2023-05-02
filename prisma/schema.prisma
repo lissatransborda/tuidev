@@ -20,7 +20,7 @@ model User {
 
 model Article{
   id String @id
-  author User @relation(fields: [authorId], references: [username])
+  author User @relation(fields: [authorId], references: [id])
   authorId String
   title String
   body String

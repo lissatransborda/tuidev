@@ -5,6 +5,7 @@ import { Article } from "../entities/Article";
 describe("test article create", () => {
   test("It should response the POST method with the created article", async () => {
     const randomUser = `test_username_${Math.random()}`;
+
     const newUser = await request(app)
       .post("/user")
       .send({
@@ -27,7 +28,7 @@ describe("test article create", () => {
       .send({
         title: articleTitle,
         body: "test_body",
-        authorUsername: newUser.body.username,
+        authorId: newUser.body.id,
       }).set("Authorization", jwtData.body.data);
 
     expect(newArticle.body).toHaveProperty("id");

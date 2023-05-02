@@ -21,11 +21,11 @@ class ArticleController {
     }
 
     try {
-      const jwtVerify = jwt.verify(authorization, JWT_PRIVATE_KEY);
+      jwt.verify(authorization, JWT_PRIVATE_KEY);
 
       const articleData = request.body as Article;
 
-      const author = await userService.getByUsername(articleData.authorUsername);
+      const author = await userService.getById(articleData.authorId);
 
       if (!author) {
         return response.status(400).json({ data: "the author doesn't exist" });

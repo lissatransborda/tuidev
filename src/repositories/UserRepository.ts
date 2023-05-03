@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 class UserRepository {
   async create(userData: User) {
-    const user = await prisma.user.create({
+    return (await prisma.user.create({
       data: {
         id: uuidv4(),
         username: userData.username,
@@ -14,28 +14,25 @@ class UserRepository {
         name: userData.name,
         articles: {},
       },
-    });
-
-    return user;
+    })) as User;
   }
 
   async getById(id: string) {
-    return await prisma.user.findUnique({
+    return (await prisma.user.findUnique({
       where: { id: id },
       include: { articles: true },
-    });
+    })) as User;
   }
 
   async getByUsername(username: string) {
-    return await prisma.user.findUnique({
+    return (await prisma.user.findUnique({
       where: { username: username },
       include: { articles: true },
-    });
+    })) as User;
   }
 
   async getAll() {
-    const users = prisma.user.findMany();
-    return users;
+    return (await prisma.user.findMany()) as Array<User>;
   }
 }
 

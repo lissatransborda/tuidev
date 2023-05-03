@@ -43,7 +43,7 @@ describe("Test ArticleService", () => {
     const list = await articleService.getAll();
 
     if (list.length > 0) {
-      list.forEach((article) => {
+      list.forEach((article: Article) => {
         expect(article).toHaveProperty("title");
         expect(article).toHaveProperty("body");
         expect(article).toHaveProperty("authorId");

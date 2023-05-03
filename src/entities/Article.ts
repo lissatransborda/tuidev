@@ -1,6 +1,8 @@
+import { UserWithoutArticles } from "./UserWithoutArticles";
+
 class Article {
   id: string;
-  author: object;
+  author: UserWithoutArticles;
   authorId: string;
   title: string;
   body: string;
@@ -8,7 +10,7 @@ class Article {
 
   constructor(
     id: string,
-    author: object,
+    author: UserWithoutArticles,
     authorId: string,
     title: string,
     body: string,

@@ -1,8 +1,8 @@
 const argon2 = require("argon2");
 
 import { UserRepository } from "../repositories/UserRepository";
-import { User } from "../entities/User";
 import { PublicUser } from "../entities/PublicUser";
+import { User } from "../entities/User";
 const userRepository = new UserRepository();
 
 class UserService {
@@ -16,7 +16,7 @@ class UserService {
     const usersDB = await userRepository.getAll();
     const usersReturned: Array<PublicUser> = [];
 
-    usersDB.forEach((user) => {
+    usersDB.forEach((user: User) => {
       usersReturned.push(new PublicUser(user.id, user.username, user.name, []));
     });
 

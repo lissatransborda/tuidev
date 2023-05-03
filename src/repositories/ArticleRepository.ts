@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 class ArticleRepository {
   async create(articleData: Article) {
-    const article = await prisma.article.create({
+    return (await prisma.article.create({
       data: {
         id: uuidv4(),
         title: articleData.title,
@@ -21,22 +21,20 @@ class ArticleRepository {
       include: {
         author: true,
       },
-    });
-
-    return article;
+    })) as Article;
   }
 
   async getById(id: string) {
-    const article = prisma.article.findUnique({
+    return (await prisma.article.findUnique({
       where: { id: id },
       include: { author: true },
-    });
-    return article;
+    })) as Article;
   }
 
   async getAll() {
-    const articles = prisma.article.findMany({ include: { author: true } });
-    return articles;
+    return (await prisma.article.findMany({
+      include: { author: true },
+    })) as Array<Article>;
   }
 }
 

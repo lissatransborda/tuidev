@@ -1,11 +1,17 @@
 import { Request, Response } from "express";
 import { Login } from "../entities/Login";
 import { LoginService } from "../services/LoginService";
+import { validateResult } from "../utils/validateRequest";
 
 const loginService = new LoginService();
 
 class LoginController {
   async login(request: Request, response: Response) {
+    const validation = validateResult(request);
+    if (validation) {
+      return response.status(400).send({ errors: validation });
+    }
+
     const loginData = request.body as Login;
 
     const login = await loginService.login(loginData);

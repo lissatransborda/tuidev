@@ -2,11 +2,18 @@ import { Request, Response } from "express";
 import { UserService } from "../services/UserService";
 
 import { User } from "../entities/User";
+import { validationResult } from "express-validator";
+import { validateResult } from "../utils/validateRequest";
 
 const userService = new UserService();
 
 class UserController {
   async create(request: Request, response: Response): Promise<Response> {
+    const validation = validateResult(request);
+    if (validation) {
+      return response.status(400).send({ errors: validation });
+    }
+
     try {
       const userData = request.body as User;
       const user = await userService.create(userData);

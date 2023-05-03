@@ -31,7 +31,7 @@ describe("test login", () => {
     expect(result).toHaveProperty("iat");
   });
 
-  test("It should response the POST method with a Bad Request", async () => {
+  test("It should response the POST method with a Bad Request by wrong credentials", async () => {
     const randomUser = `test_username_${Math.random()}`;
     const newUser = await request(app).post("/user").send({
       username: randomUser,
@@ -45,5 +45,21 @@ describe("test login", () => {
     });
 
     expect(jwtData.status).toBe(400);
+  });
+
+  test("It should response the POST method with a Bad Request by wrong validation", async () => {
+    const randomUser = `test_username_${Math.random()}`;
+    const newUser = await request(app).post("/user").send({
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+    });
+
+    const requestData = await request(app).post("/login").send({
+      username: "wrong_user",
+    });
+
+    expect(requestData.status).toEqual(400);
+    expect(requestData.body).toHaveProperty("errors");
   });
 });

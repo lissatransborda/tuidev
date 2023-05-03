@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { ArticleService } from "../services/ArticleService";
 import { UserService } from "../services/UserService";
 import { Article } from "../entities/Article";
+import { validateResult } from "../utils/validateRequest";
 import jwt from "jsonwebtoken";
 
 const JWT_PRIVATE_KEY = process.env.JWT_PRIVATE_KEY ?? "default";
@@ -12,16 +13,15 @@ const userService = new UserService();
 
 class ArticleController {
   async create(request: Request, response: Response) {
-    const authorization = request.headers["authorization"];
-
-    if (!authorization) {
-      return response
-        .status(400)
-        .json({ data: "please insert authorization header" });
+    const validation = validateResult(request);
+    if (validation) {
+      return response.status(400).send({ errors: validation });
     }
 
+    const authorization = request.headers["authorization"];
+
     try {
-      jwt.verify(authorization, JWT_PRIVATE_KEY);
+      jwt.verify(authorization!, JWT_PRIVATE_KEY);
 
       const articleData = request.body as Article;
 

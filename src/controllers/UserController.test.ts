@@ -16,7 +16,7 @@ describe("test user create", () => {
     expect(newUser.body).toHaveProperty("name", "test_name");
   });
 
-  test("It should response the POST method with an Bad Request, saying the user alredy exists", async () => {
+  test("It should response the POST method with an Bad Requesta by the user alredy exists", async () => {
     const randomUser = `test_username_${Math.random()}`;
     const user = {
       username: randomUser,
@@ -28,6 +28,17 @@ describe("test user create", () => {
 
     expect(newUser.status).toEqual(400);
     expect(newUser.body).toHaveProperty("data");
+  });
+
+  test("It should response the POST method with an Bad Request by wrong validation", async () => {
+    const randomUser = `test_username_${Math.random()}`;
+    const user = {
+      password: "test_password",
+    };
+    const newUser = await request(app).post("/user").send(user);
+
+    expect(newUser.status).toEqual(400);
+    expect(newUser.body).toHaveProperty("errors");
   });
 });
 

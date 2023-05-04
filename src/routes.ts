@@ -20,6 +20,18 @@ router.post(
   body("name").notEmpty().isString().escape(),
   userController.create
 );
+router.put(
+  "/user/:id",
+  body("username").notEmpty().isString().escape(),
+  body("name").notEmpty().isString().escape(),
+  userController.update
+);
+router.put(
+  "/user/password/:id",
+  body("password").notEmpty().isString().escape(),
+  header("authorization").notEmpty().isJWT(),
+  userController.changePassword
+);
 
 router.post(
   "/login",
@@ -37,6 +49,14 @@ router.post(
   body("body").notEmpty().isString().escape(),
   header("authorization").notEmpty().isJWT(),
   articleController.create
+);
+router.put(
+  "/article/:id",
+  body("title").notEmpty().isString().escape(),
+  body("authorId").notEmpty().isUUID(),
+  body("body").notEmpty().isString().escape(),
+  header("authorization").notEmpty().isJWT(),
+  articleController.update
 );
 
 export { router };

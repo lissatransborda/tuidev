@@ -17,6 +17,29 @@ class UserRepository {
     })) as User;
   }
 
+  async update(userData: User, id: string) {
+    return (await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        username: userData.username,
+        name: userData.name,
+      },
+    })) as User;
+  }
+
+  async changePassword(password: string, id: string) {
+    return await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        password: password,
+      },
+    });
+  }
+
   async getById(id: string) {
     return (await prisma.user.findUnique({
       where: { id: id },

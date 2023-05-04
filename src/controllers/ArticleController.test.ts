@@ -41,7 +41,7 @@ describe("test article create", () => {
   test("It should response the POST method with a BadRequest by author doesn't exist", async () => {
     const randomUser = `test_username_${Math.random()}`;
 
-    const newUser = await request(app).post("/user").send({
+    await request(app).post("/user").send({
       username: randomUser,
       password: "test_password",
       name: "test_name",
@@ -101,6 +101,163 @@ describe("test article create", () => {
   });
 });
 
+describe("Test article update", () => {
+  test("It should response the PUT method with the updated article", async () => {
+    const randomUser = `test_username_${Math.random()}`;
+
+    const newUser = await request(app).post("/user").send({
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+    });
+
+    const jwtData = await request(app).post("/login").send({
+      username: randomUser,
+      password: "test_password",
+    });
+
+    const articleTitle = "test_title";
+
+    const newArticle = await request(app)
+      .post("/article")
+      .send({
+        title: articleTitle,
+        body: "test_body",
+        authorId: newUser.body.id,
+      })
+      .set("authorization", jwtData.body.data);
+
+    const updatedArticle = await request(app)
+      .put(`/article/${newArticle.body.id}`)
+      .send({
+        title: `updated_${articleTitle}`,
+        body: "test_body",
+        authorId: newUser.body.id,
+      })
+      .set("authorization", jwtData.body.data);
+
+    expect(updatedArticle.body).toHaveProperty("id");
+    expect(updatedArticle.body).toHaveProperty("title", "updated_test_title");
+    expect(updatedArticle.body).toHaveProperty("body", "test_body");
+    expect(updatedArticle.body).toHaveProperty(
+      "url",
+      `${newUser.body.username}/updated_${articleTitle.replace(" ", "-")}`
+    );
+  });
+
+  test("It should response the PUT method with a BadRequest by author doesn't exist", async () => {
+    const randomUser = `test_username_${Math.random()}`;
+
+    const newUser = await request(app).post("/user").send({
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+    });
+
+    const jwtData = await request(app).post("/login").send({
+      username: randomUser,
+      password: "test_password",
+    });
+
+    const articleTitle = "test_title";
+
+    const newArticle = await request(app)
+      .post("/article")
+      .send({
+        title: articleTitle,
+        body: "test_body",
+        authorId: newUser.body.id,
+      })
+      .set("authorization", jwtData.body.data);
+
+    const updatedArticle = await request(app)
+      .put(`/article/${newArticle.body.id}`)
+      .send({
+        title: `updated_${articleTitle}`,
+        body: "test_body",
+        authorId: uuidv4(),
+      })
+      .set("authorization", jwtData.body.data);
+
+    expect(updatedArticle.status).toEqual(400);
+    expect(updatedArticle.body).toHaveProperty("data");
+  });
+
+  test("It should response the PUT method with a BadRequest by wrong validation", async () => {
+    const randomUser = `test_username_${Math.random()}`;
+
+    const newUser = await request(app).post("/user").send({
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+    });
+
+    const jwtData = await request(app).post("/login").send({
+      username: randomUser,
+      password: "test_password",
+    });
+
+    const articleTitle = "test_title";
+
+    const newArticle = await request(app)
+      .post("/article")
+      .send({
+        title: articleTitle,
+        body: "test_body",
+        authorId: newUser.body.id,
+      })
+      .set("authorization", jwtData.body.data);
+
+    const updatedArticle = await request(app)
+      .put(`/article/${newArticle.body.id}`)
+      .send({
+        authorId: newUser.body.id,
+      })
+      .set("authorization", jwtData.body.data);
+
+    expect(updatedArticle.status).toEqual(400);
+    expect(updatedArticle.body).toHaveProperty("errors");
+  });
+
+  test("It should response the PUT method with a BadRequest by malformed jwt", async () => {
+    const randomUser = `test_username_${Math.random()}`;
+
+    const newUser = await request(app).post("/user").send({
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+    });
+
+    const jwtData = await request(app).post("/login").send({
+      username: randomUser,
+      password: "test_password",
+    });
+
+    const articleTitle = "test_title";
+
+    const newArticle = await request(app)
+      .post("/article")
+      .send({
+        title: articleTitle,
+        body: "test_body",
+        authorId: newUser.body.id,
+      })
+      .set("authorization", jwtData.body.data);
+
+    const updatedArticle = await request(app)
+      .put(`/article/${newArticle.body.id}`)
+      .send({
+        title: `updated_${articleTitle}`,
+        body: "test_body",
+        authorId: newUser.body.id,
+      })
+      .set("authorization", "A.B.C");
+
+    expect(updatedArticle.status).toEqual(400);
+    expect(updatedArticle.body).toHaveProperty("data");
+  });
+});
+
 describe("Test article getAll", () => {
   test("It should response the GET method with a list of articles", async () => {
     const articles = await request(app).get("/article");
@@ -124,5 +281,12 @@ describe("Test article getById", () => {
     expect(article.body).toHaveProperty("body");
     expect(article.body).toHaveProperty("authorId");
     expect(article.body).toHaveProperty("author");
+  });
+
+  test("It should response the GET method with a BadRequest by wrong ID", async () => {
+    const article = await request(app).get(`/article/${uuidv4()}`);
+
+    expect(article.status).toEqual(400);
+    expect(article.body).toHaveProperty("data");
   });
 });

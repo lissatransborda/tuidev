@@ -3,12 +3,11 @@ import { User } from "../entities/User";
 import { v4 as uuidv4 } from "uuid";
 import { PublicUser } from "../entities/PublicUser";
 
-const randomUser = `test_username_${Math.random()}`;
-let testUser: PublicUser;
-
 describe("Test UserService", () => {
   test("It should return the created user", async () => {
     const userService = new UserService();
+    const randomUser = `test_username_${Math.random()}`;
+
     const user = new User(
       uuidv4(),
       randomUser,
@@ -18,11 +17,53 @@ describe("Test UserService", () => {
     );
 
     const userCreated = await userService.create(user);
-    testUser = userCreated;
 
     expect(userCreated).toHaveProperty("id");
     expect(userCreated).toHaveProperty("username");
     expect(userCreated).toHaveProperty("name");
+  });
+
+  test("It should return the updated user", async () => {
+    const userService = new UserService();
+    const randomUser = `test_username_${Math.random()}`;
+
+    const user = new User(
+      uuidv4(),
+      randomUser,
+      "test_password",
+      "test_name",
+      []
+    );
+
+    const userDB = await userService.create(user);
+    user.username = `updated_${randomUser}`;
+    const userUpdated = await userService.update(user, userDB.id);
+
+    expect(userUpdated).toHaveProperty("id");
+    expect(userUpdated).toHaveProperty("username");
+    expect(userUpdated).toHaveProperty("name");
+  });
+
+  test("It should return the updated password", async () => {
+    const userService = new UserService();
+    const randomUser = `test_username_${Math.random()}`;
+
+    const user = new User(
+      uuidv4(),
+      randomUser,
+      "test_password",
+      "test_name",
+      []
+    );
+
+    const userDB = await userService.create(user);
+    user.username = `updated_${randomUser}`;
+    const userUpdated = await userService.changePassword(
+      "new_password",
+      userDB.id
+    );
+
+    expect(userUpdated).toBeTruthy();
   });
 
   test("It should return the list of users", async () => {
@@ -40,11 +81,23 @@ describe("Test UserService", () => {
 
   test("It should return one user by id", async () => {
     const userService = new UserService();
-    const user = await userService.getById(testUser.id);
+    const randomUser = `test_username_${Math.random()}`;
 
-    expect(user).toHaveProperty("id");
-    expect(user).toHaveProperty("username");
-    expect(user).toHaveProperty("name");
+    const user = new User(
+      uuidv4(),
+      randomUser,
+      "test_password",
+      "test_name",
+      []
+    );
+
+    const userCreated = await userService.create(user);
+
+    const userSearched = await userService.getById(userCreated.id);
+
+    expect(userSearched).toHaveProperty("id");
+    expect(userSearched).toHaveProperty("username");
+    expect(userSearched).toHaveProperty("name");
   });
 
   test("It should return null using getUserById", async () => {
@@ -56,11 +109,23 @@ describe("Test UserService", () => {
 
   test("It should return one user by username", async () => {
     const userService = new UserService();
-    const user = await userService.getByUsername(randomUser);
+    const randomUser = `test_username_${Math.random()}`;
 
-    expect(user).toHaveProperty("id");
-    expect(user).toHaveProperty("username");
-    expect(user).toHaveProperty("name");
+    const user = new User(
+      uuidv4(),
+      randomUser,
+      "test_password",
+      "test_name",
+      []
+    );
+
+    await userService.create(user);
+
+    const userSearched = await userService.getByUsername(user.username);
+
+    expect(userSearched).toHaveProperty("id");
+    expect(userSearched).toHaveProperty("username");
+    expect(userSearched).toHaveProperty("name");
   });
 
   test("It should return null using getUserByUsername", async () => {

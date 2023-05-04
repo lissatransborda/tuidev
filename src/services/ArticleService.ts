@@ -25,6 +25,26 @@ class ArticleService {
 
     return articleReturned;
   }
+
+  async update(article: Article, id: string) {
+    const articleUpdated = await articleRepository.update(article, id);
+
+    const publicAuthor = new PublicUserWithoutArticles(
+      articleUpdated.author.id,
+      articleUpdated.author.username,
+      articleUpdated.author.name
+    );
+
+    return new PublicArticle(
+      articleUpdated.id,
+      publicAuthor,
+      publicAuthor.id,
+      articleUpdated.title,
+      articleUpdated.body,
+      articleUpdated.url
+    );
+  }
+
   async getAll() {
     return await articleRepository.getAll();
   }

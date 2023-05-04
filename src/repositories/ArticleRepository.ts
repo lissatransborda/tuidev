@@ -24,6 +24,22 @@ class ArticleRepository {
     })) as Article;
   }
 
+  async update(articleData: Article, id: string) {
+    return (await prisma.article.update({
+      where: {
+        id: id,
+      },
+      data: {
+        title: articleData.title,
+        body: articleData.body,
+        url: articleData.url,
+      },
+      include: {
+        author: true,
+      },
+    })) as Article;
+  }
+
   async getById(id: string) {
     return (await prisma.article.findUnique({
       where: { id: id },

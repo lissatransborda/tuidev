@@ -3,6 +3,7 @@ const argon2 = require("argon2");
 import { UserRepository } from "../repositories/UserRepository";
 import { PublicUser } from "../entities/PublicUser";
 import { User } from "../entities/User";
+import { PublicUserWithoutArticles } from "../entities/PublicUserWithoutArticles";
 const userRepository = new UserRepository();
 
 class UserService {
@@ -12,6 +13,22 @@ class UserService {
 
     return new PublicUser(userDB.id, userDB.username, userDB.name, []);
   }
+
+  async update(user: User, id: string) {
+    const userDB = await userRepository.update(user, id);
+
+    return new PublicUserWithoutArticles(
+      userDB.id,
+      userDB.username,
+      userDB.name
+    );
+  }
+
+  async changePassword(password: string, id: string) {
+    await userRepository.changePassword(password, id);
+    return true;
+  }
+
   async getAll() {
     const usersDB = await userRepository.getAll();
     const usersReturned: Array<PublicUser> = [];

@@ -55,7 +55,7 @@ class UserRepository {
   }
 
   async getAll() {
-    return (await prisma.user.findMany()) as Array<User>;
+    return (await prisma.user.findMany({include: {articles: false}})) as Array<User>;
   }
 }
 

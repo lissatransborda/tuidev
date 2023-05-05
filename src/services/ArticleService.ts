@@ -46,10 +46,49 @@ class ArticleService {
   }
 
   async getAll() {
-    return await articleRepository.getAll();
+    const articlesDB = await articleRepository.getAll();
+    const articlesReturned: Array<PublicArticle> = [];
+
+    articlesDB.forEach((article: PublicArticle) => {
+    const publicAuthor = new PublicUserWithoutArticles(
+      article.author.id,
+      article.author.username,
+      article.author.name
+    );
+
+    articlesReturned.push(new PublicArticle(
+      article.id,
+      publicAuthor,
+      publicAuthor.id,
+      article.title,
+      article.body,
+      article.url
+    ));
+    });
+
+    return articlesReturned;
   }
   async getById(id: string) {
-    return (await articleRepository.getById(id)) ?? null;
+    const articleDB = await articleRepository.getById(id) ?? null;
+
+    if (!articleDB){
+      return null
+    }
+
+    const publicAuthor = new PublicUserWithoutArticles(
+      articleDB.author.id,
+      articleDB.author.username,
+      articleDB.author.name
+    );
+
+    return new PublicArticle(
+      articleDB.id,
+      publicAuthor,
+      publicAuthor.id,
+      articleDB.title,
+      articleDB.body,
+      articleDB.url
+    );
   }
 }
 

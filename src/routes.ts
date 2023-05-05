@@ -24,6 +24,7 @@ router.put(
   "/user/:id",
   body("username").notEmpty().isString().escape(),
   body("name").notEmpty().isString().escape(),
+  header("authorization").notEmpty().isJWT(),
   userController.update
 );
 router.put(

@@ -46,33 +46,80 @@ describe("test user create", () => {
 describe("Test user update", () => {
   test("It should response the PUT method with a user with a updated name", async () => {
     const randomUser = `test_username_${Math.random()}`;
+
     const newUser = await request(app).post("/user").send({
       username: randomUser,
       password: "test_password",
       name: "test_name",
     });
 
+    const jwtData = await request(app).post("/login").send({
+      username: randomUser,
+      password: "test_password",
+    })
+
     const updateUser = await request(app)
       .put(`/user/${newUser.body.id}`)
       .send({
         username: `updated_${randomUser}`,
         name: "updated_test_name",
-      });
+      })
+      .set("authorization", jwtData.body.data);
 
     expect(updateUser.body).toHaveProperty("id");
     expect(updateUser.body).toHaveProperty("username", `updated_${randomUser}`);
     expect(updateUser.body).toHaveProperty("name", "updated_test_name");
   });
 
-  test("It should response the PUT method with a BadRequest by user not found", async () => {
+  test("It should response the PUT method with a BadRequest by user and JWT different", async () => {
     const randomUser = `test_username_${Math.random()}`;
+
+    await request(app).post("/user").send({
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+    });
+
+    const jwtData = await request(app).post("/login").send({
+      username: randomUser,
+      password: "test_password",
+    })
 
     const updateUser = await request(app)
       .put(`/user/${uuidv4()}`)
       .send({
         username: `updated_${randomUser}`,
         name: "updated_test_name",
-      });
+      })
+      .set("authorization", jwtData.body.data);
+
+
+    expect(updateUser.status).toEqual(400);
+    expect(updateUser.body).toHaveProperty("data");
+  });
+
+  test("It should response the PUT method with a BadRequest by malformed JWT", async () => {
+    const randomUser = `test_username_${Math.random()}`;
+
+    const newUser = await request(app).post("/user").send({
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+    });
+
+    const jwtData = await request(app).post("/login").send({
+      username: randomUser,
+      password: "test_password",
+    })
+
+    const updateUser = await request(app)
+      .put(`/user/${newUser.body.id}`)
+      .send({
+        username: `updated_${randomUser}`,
+        name: "updated_test_name",
+      })
+      .set("authorization", "A.B.C");
+
 
     expect(updateUser.status).toEqual(400);
     expect(updateUser.body).toHaveProperty("data");
@@ -80,7 +127,7 @@ describe("Test user update", () => {
 
   test("It should response the PUT method with a BadRequest by wrong validation", async () => {
     const randomUser = `test_username_${Math.random()}`;
-    const newUser = await request(app).post("/user").send({
+    await request(app).post("/user").send({
       username: randomUser,
       password: "test_password",
       name: "test_name",
@@ -121,7 +168,7 @@ describe("Test user change password", () => {
 
   test("It should response the PUT method with BadRequest by wrong user ID", async () => {
     const randomUser = `test_username_${Math.random()}`;
-    const newUser = await request(app).post("/user").send({
+    await request(app).post("/user").send({
       username: randomUser,
       password: "test_password",
       name: "test_name",
@@ -145,7 +192,7 @@ describe("Test user change password", () => {
 
   test("It should response the PUT method with BadRequest by wrong validation", async () => {
     const randomUser = `test_username_${Math.random()}`;
-    const newUser = await request(app).post("/user").send({
+    await request(app).post("/user").send({
       username: randomUser,
       password: "test_password",
       name: "test_name",
@@ -168,7 +215,7 @@ describe("Test user change password", () => {
 
   test("It should response the PUT method with BadRequest by malformed JWT", async () => {
     const randomUser = `test_username_${Math.random()}`;
-    const newUser = await request(app).post("/user").send({
+    await request(app).post("/user").send({
       username: randomUser,
       password: "test_password",
       name: "test_name",

@@ -39,15 +39,27 @@ class UserController {
       return response.status(400).send({ errors: validation });
     }
 
-    try {
+    const authorization = request.headers["authorization"];
       const userData = request.body as User;
       const id = request.params.id;
+
+    try {
+      const jwtData = jwt.verify(authorization!, JWT_PRIVATE_KEY) as JwtPayload;
+
+      if (jwtData.id != id) {
+        return response
+          .status(400)
+          .send({ data: "userId and JWT are different" });
+      }
 
       const user = await userService.update(userData, id);
 
       return response.status(200).json(user);
     } catch (error: any) {
-      if ((error.meta.cause = "'Record to update not found.'")) {
+      if (error.name == "JsonWebTokenError") {
+        return response.status(400).json({ data: "malformed JsonWebToken" });
+      }
+      if (error.meta.cause = "'Record to update not found.'") {
         return response.status(400).json({ data: "user ID not found" });
       }
       return response.status(500);

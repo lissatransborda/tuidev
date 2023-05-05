@@ -3,6 +3,7 @@ import { ArticleService } from "./ArticleService";
 import { Article } from "../entities/Article";
 import { User } from "../entities/User";
 import { v4 as uuidv4 } from "uuid";
+import { PublicArticle } from "../entities/PublicArticle";
 
 describe("Test ArticleService", () => {
   test("It should return the created article", async () => {
@@ -82,7 +83,7 @@ describe("Test ArticleService", () => {
     const list = await articleService.getAll();
 
     if (list.length > 0) {
-      list.forEach((article: Article) => {
+      list.forEach((article: PublicArticle) => {
         expect(article).toHaveProperty("title");
         expect(article).toHaveProperty("body");
         expect(article).toHaveProperty("authorId");

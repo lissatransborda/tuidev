@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Login } from "../entities/Login";
 import { LoginService } from "../services/LoginService";
 import { validateResult } from "../utils/validateRequest";
+import { Login } from "../entities/Login";
 
 const loginService = new LoginService();
 

@@ -2,7 +2,6 @@ import { UserService } from "./UserService";
 import { ArticleService } from "./ArticleService";
 import { Article } from "../entities/Article";
 import { User } from "../entities/User";
-import { PublicArticle } from "../entities/PublicArticle";
 import { randomUUID } from "crypto";
 
 describe("Test ArticleService", () => {
@@ -14,23 +13,23 @@ describe("Test ArticleService", () => {
     const randomUser = `test_username_${Math.random()}`;
     const url = `${randomUser}/${title.replace(" ", "-")}`;
 
-    const user = new User(
-      randomUUID(),
-      randomUser,
-      "test_password",
-      "test_name",
-      []
-    );
+    const user = <User>{
+      id: randomUUID(),
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+      articles: [],
+    };
     const userCreated = await userService.create(user);
 
-    const article = new Article(
-      randomUUID(),
-      user,
-      userCreated.id,
-      "test_title",
-      "test_body",
-      url
-    );
+    const article = <Article>{
+      id: randomUUID(),
+      author: user,
+      authorId: userCreated.id,
+      title: "test_title",
+      body: "test_body",
+      url: url,
+    };
     const articleCreated = await articleService.create(article);
 
     expect(articleCreated).toHaveProperty("title");
@@ -47,24 +46,24 @@ describe("Test ArticleService", () => {
     const randomUser = `test_username_${Math.random()}`;
     const url = `${randomUser}/${title.replace(" ", "-")}`;
 
-    const user = new User(
-      randomUUID(),
-      randomUser,
-      "test_password",
-      "test_name",
-      []
-    );
+    const user = <User>{
+      id: randomUUID(),
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+      articles: [],
+    };
 
     const userCreated = await userService.create(user);
 
-    const article = new Article(
-      randomUUID(),
-      user,
-      userCreated.id,
-      "test_title",
-      "test_body",
-      url
-    );
+    const article = <Article>{
+      id: randomUUID(),
+      author: user,
+      authorId: userCreated.id,
+      title: "test_title",
+      body: "test_body",
+      url: url,
+    };
     const articleCreated = await articleService.create(article);
     article.title = "updated_test_title";
     const articleUpdated = await articleService.update(
@@ -83,7 +82,7 @@ describe("Test ArticleService", () => {
     const list = await articleService.getAll();
 
     if (list.length > 0) {
-      list.forEach((article: PublicArticle) => {
+      list.forEach((article: Article) => {
         expect(article).toHaveProperty("title");
         expect(article).toHaveProperty("body");
         expect(article).toHaveProperty("authorId");

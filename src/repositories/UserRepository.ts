@@ -10,7 +10,7 @@ class UserRepository {
       data: {
         id: randomUUID(),
         username: userData.username,
-        password: userData.password,
+        password: userData.password!,
         name: userData.name,
         articles: {},
       },

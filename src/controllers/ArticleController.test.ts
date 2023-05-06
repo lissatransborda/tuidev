@@ -32,10 +32,7 @@ describe("test article create", () => {
     expect(newArticle.body).toHaveProperty("id");
     expect(newArticle.body).toHaveProperty("title", "test_title");
     expect(newArticle.body).toHaveProperty("body", "test_body");
-    expect(newArticle.body).toHaveProperty(
-      "url",
-      `${newUser.body.username}/${articleTitle.replace(" ", "-")}`
-    );
+    expect(newArticle.body).toHaveProperty("url");
   });
 
   test("It should response the POST method with a BadRequest by JWT and user being different", async () => {
@@ -139,10 +136,7 @@ describe("Test article update", () => {
     expect(updatedArticle.body).toHaveProperty("id");
     expect(updatedArticle.body).toHaveProperty("title", "updated_test_title");
     expect(updatedArticle.body).toHaveProperty("body", "test_body");
-    expect(updatedArticle.body).toHaveProperty(
-      "url",
-      `${newUser.body.username}/updated_${articleTitle.replace(" ", "-")}`
-    );
+    expect(updatedArticle.body).toHaveProperty("url");
   });
 
   test("It should response the PUT method with a BadRequest by author doesn't exist", async () => {

@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 import { UserService } from "../services/UserService";
 
 import { User } from "../entities/User";
-import { validationResult } from "express-validator";
 import { validateResult } from "../utils/validateRequest";
 import jwt from "jsonwebtoken";
 import { JwtPayload } from "jsonwebtoken";

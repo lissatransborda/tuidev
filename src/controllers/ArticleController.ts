@@ -5,6 +5,7 @@ import { UserService } from "../services/UserService";
 import { Article } from "../entities/Article";
 import { validateResult } from "../utils/validateRequest";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { articleURLGenerate } from "../utils/articleURLGenerator";
 
 const JWT_PRIVATE_KEY = process.env.JWT_PRIVATE_KEY ?? "default";
 
@@ -36,10 +37,7 @@ class ArticleController {
         return response.status(404).json({ data: "the author doesn't exist" });
       }
 
-      articleData.url = `${author.username}/${articleData.title.replace(
-        " ",
-        "-"
-      )}`;
+      articleData.url = articleURLGenerate(author.username, articleData.title);
 
       const article = await articleService.create(articleData);
       return response.status(200).json(article);

@@ -3,14 +3,13 @@ const jwt = require("jsonwebtoken");
 const request = require("supertest");
 
 import { app } from "../../src/app";
-import { User } from "../entities/User";
 
 const JWT_PRIVATE_KEY = process.env.JWT_PRIVATE_KEY ?? "default";
 
 describe("test login", () => {
   test("It should response the POST method with the JWT", async () => {
     const randomUser = `test_username_${Math.random()}`;
-    const newUser = await request(app).post("/user").send({
+    await request(app).post("/user").send({
       username: randomUser,
       password: "test_password",
       name: "test_name",
@@ -33,7 +32,7 @@ describe("test login", () => {
 
   test("It should response the POST method with a Bad Request by wrong credentials", async () => {
     const randomUser = `test_username_${Math.random()}`;
-    const newUser = await request(app).post("/user").send({
+    await request(app).post("/user").send({
       username: randomUser,
       password: "test_password",
       name: "test_name",
@@ -49,7 +48,7 @@ describe("test login", () => {
 
   test("It should response the POST method with a Bad Request by wrong validation", async () => {
     const randomUser = `test_username_${Math.random()}`;
-    const newUser = await request(app).post("/user").send({
+    await request(app).post("/user").send({
       username: randomUser,
       password: "test_password",
       name: "test_name",

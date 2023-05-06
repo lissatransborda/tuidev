@@ -1,9 +1,9 @@
 const argon2 = require("argon2");
 require("dotenv").config();
-import { UserRepository } from "../repositories/UserRepository";
 import { Login } from "../entities/Login";
+import { User } from "../entities/User";
+import { UserRepository } from "../repositories/UserRepository";
 import jwt from "jsonwebtoken";
-import { PublicUser } from "../entities/PublicUser";
 
 const JWT_PRIVATE_KEY = process.env.JWT_PRIVATE_KEY ?? "default";
 
@@ -18,12 +18,12 @@ class LoginService {
     }
 
     if (await argon2.verify(user.password, login.password)) {
-      const returnedUser = new PublicUser(
-        user.id,
-        user.username,
-        user.name,
-        []
-      );
+      const returnedUser = <User>{
+        id: user.id,
+        username: user.username,
+        name: user.name,
+        articles: [],
+      };
       return jwt.sign({ ...returnedUser }, JWT_PRIVATE_KEY);
     } else {
       return null;

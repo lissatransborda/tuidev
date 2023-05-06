@@ -1,7 +1,6 @@
 import { ArticleRepository } from "../repositories/ArticleRepository";
 import { Article } from "../entities/Article";
-import { PublicUserWithoutArticles } from "../entities/PublicUserWithoutArticles";
-import { PublicArticle } from "../entities/PublicArticle";
+import { User } from "../entities/User";
 
 const articleRepository = new ArticleRepository();
 
@@ -9,63 +8,60 @@ class ArticleService {
   async create(article: Article) {
     const articleCreated = await articleRepository.create(article);
 
-    const publicAuthor = new PublicUserWithoutArticles(
-      articleCreated.author.id,
-      articleCreated.author.username,
-      articleCreated.author.name
-    );
-    const articleReturned = new PublicArticle(
-      articleCreated.id,
-      publicAuthor,
-      publicAuthor.id,
-      articleCreated.title,
-      articleCreated.body,
-      articleCreated.url
-    );
+    const publicAuthor = <User>{
+      id: articleCreated.author.id,
+      username: articleCreated.author.username,
+      name: articleCreated.author.name,
+    };
 
-    return articleReturned;
+    return <Article>{
+      id: articleCreated.id,
+      author: publicAuthor,
+      authorId: publicAuthor.id,
+      title: articleCreated.title,
+      body: articleCreated.body,
+      url: articleCreated.url,
+    };
   }
 
   async update(article: Article, id: string) {
     const articleUpdated = await articleRepository.update(article, id);
 
-    const publicAuthor = new PublicUserWithoutArticles(
-      articleUpdated.author.id,
-      articleUpdated.author.username,
-      articleUpdated.author.name
-    );
+    const publicAuthor = <User>{
+      id: articleUpdated.author.id,
+      username: articleUpdated.author.username,
+      name: articleUpdated.author.name,
+    };
 
-    return new PublicArticle(
-      articleUpdated.id,
-      publicAuthor,
-      publicAuthor.id,
-      articleUpdated.title,
-      articleUpdated.body,
-      articleUpdated.url
-    );
+    return <Article>{
+      id: articleUpdated.id,
+      author: publicAuthor,
+      authorId: publicAuthor.id,
+      title: articleUpdated.title,
+      body: articleUpdated.body,
+      url: articleUpdated.url,
+    };
   }
 
   async getAll() {
     const articlesDB = await articleRepository.getAll();
-    const articlesReturned: Array<PublicArticle> = [];
+    const articlesReturned: Array<Article> = [];
 
-    articlesDB.forEach((article: PublicArticle) => {
-      const publicAuthor = new PublicUserWithoutArticles(
-        article.author.id,
-        article.author.username,
-        article.author.name
-      );
+    articlesDB.forEach((article: Article) => {
+      const publicAuthor = <User>{
+        id: article.author.id,
+        username: article.author.username,
+        name: article.author.name,
+      };
 
-      articlesReturned.push(
-        new PublicArticle(
-          article.id,
-          publicAuthor,
-          publicAuthor.id,
-          article.title,
-          article.body,
-          article.url
-        )
-      );
+      articlesReturned.push(<Article>{
+        id: article.id,
+        author: publicAuthor,
+        authorId: publicAuthor.id,
+        title: article.title,
+        body: article.body,
+        url: article.url,
+      });
     });
 
     return articlesReturned;
@@ -77,20 +73,20 @@ class ArticleService {
       return null;
     }
 
-    const publicAuthor = new PublicUserWithoutArticles(
-      articleDB.author.id,
-      articleDB.author.username,
-      articleDB.author.name
-    );
+    const publicAuthor = <User>{
+      id: articleDB.author.id,
+      username: articleDB.author.username,
+      name: articleDB.author.name,
+    };
 
-    return new PublicArticle(
-      articleDB.id,
-      publicAuthor,
-      publicAuthor.id,
-      articleDB.title,
-      articleDB.body,
-      articleDB.url
-    );
+    return <Article>{
+      id: articleDB.id,
+      author: publicAuthor,
+      authorId: publicAuthor.id,
+      title: articleDB.title,
+      body: articleDB.body,
+      url: articleDB.url,
+    };
   }
 }
 

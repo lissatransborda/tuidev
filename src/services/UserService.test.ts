@@ -7,13 +7,13 @@ describe("Test UserService", () => {
     const userService = new UserService();
     const randomUser = `test_username_${Math.random()}`;
 
-    const user = new User(
-      randomUUID(),
-      randomUser,
-      "test_password",
-      "test_name",
-      []
-    );
+    const user = <User>{
+      id: randomUUID(),
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+      articles: [],
+    };
 
     const userCreated = await userService.create(user);
 
@@ -26,13 +26,13 @@ describe("Test UserService", () => {
     const userService = new UserService();
     const randomUser = `test_username_${Math.random()}`;
 
-    const user = new User(
-      randomUUID(),
-      randomUser,
-      "test_password",
-      "test_name",
-      []
-    );
+    const user = <User>{
+      id: randomUUID(),
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+      articles: [],
+    };
 
     const userDB = await userService.create(user);
     user.username = `updated_${randomUser}`;
@@ -47,13 +47,13 @@ describe("Test UserService", () => {
     const userService = new UserService();
     const randomUser = `test_username_${Math.random()}`;
 
-    const user = new User(
-      randomUUID(),
-      randomUser,
-      "test_password",
-      "test_name",
-      []
-    );
+    const user = <User>{
+      id: randomUUID(),
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+      articles: [],
+    };
 
     const userDB = await userService.create(user);
     user.username = `updated_${randomUser}`;
@@ -82,13 +82,13 @@ describe("Test UserService", () => {
     const userService = new UserService();
     const randomUser = `test_username_${Math.random()}`;
 
-    const user = new User(
-      randomUUID(),
-      randomUser,
-      "test_password",
-      "test_name",
-      []
-    );
+    const user = <User>{
+      id: randomUUID(),
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+      articles: [],
+    };
 
     const userCreated = await userService.create(user);
 
@@ -110,13 +110,13 @@ describe("Test UserService", () => {
     const userService = new UserService();
     const randomUser = `test_username_${Math.random()}`;
 
-    const user = new User(
-      randomUUID(),
-      randomUser,
-      "test_password",
-      "test_name",
-      []
-    );
+    const user = <User>{
+      id: randomUUID(),
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+      articles: [],
+    };
 
     await userService.create(user);
 

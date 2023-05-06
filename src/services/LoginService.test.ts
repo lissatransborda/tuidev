@@ -15,17 +15,17 @@ describe("Test LoginService", () => {
     const loginService = new LoginService();
 
     const randomUser = `test_username_${Math.random()}`;
-    const user = new User(
-      randomUUID(),
-      randomUser,
-      "test_password",
-      "test_name",
-      []
-    );
+    const user = <User>{
+      id: randomUUID(),
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+      articles: [],
+    };
 
-    const userCreated = await userService.create(user);
+    await userService.create(user);
 
-    const login = new Login(randomUser, "test_password");
+    const login = <Login>{ username: randomUser, password: "test_password" };
     const loginData = await loginService.login(login);
 
     const result = await jwt.verify(loginData, JWT_PRIVATE_KEY);
@@ -41,17 +41,17 @@ describe("Test LoginService", () => {
     const loginService = new LoginService();
 
     const randomUser = `test_username_${Math.random()}`;
-    const user = new User(
-      randomUUID(),
-      randomUser,
-      "test_password",
-      "test_name",
-      []
-    );
+    const user = <User>{
+      id: randomUUID(),
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+      articles: [],
+    };
 
-    const userCreated = await userService.create(user);
+    await userService.create(user);
 
-    const login = new Login(randomUser, "wrong_password");
+    const login = <Login>{ username: randomUser, password: "test_password" };
     const loginData = await loginService.login(login);
 
     expect(loginData).toBeNull;
@@ -62,17 +62,17 @@ describe("Test LoginService", () => {
     const loginService = new LoginService();
 
     const randomUser = `test_username_${Math.random()}`;
-    const user = new User(
-      randomUUID(),
-      randomUser,
-      "test_password",
-      "test_name",
-      []
-    );
+    const user = <User>{
+      id: randomUUID(),
+      username: randomUser,
+      password: "test_password",
+      name: "test_name",
+      articles: [],
+    };
 
-    const userCreated = await userService.create(user);
+    await userService.create(user);
 
-    const login = new Login("wrong_user", "test_password");
+    const login = <Login>{ username: "wrong_user", password: "test_password" };
     const loginData = await loginService.login(login);
 
     expect(loginData).toBeNull;

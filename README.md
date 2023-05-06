@@ -123,7 +123,7 @@ Retorna todas as pessoas usuárias criadas
 ]
 ```
 
-- `GET /user/:username`
+- `GET /user?username=username`
 
 Retorna os dados de uma pessoa específica pelo username dela
 
@@ -171,7 +171,7 @@ Reposta:
 }
 ```
 
-- `PUT /user/password/:id`
+- `PUT /user/:id/password`
 
 Altera senha de uma pessoa usuária específica
 
@@ -254,7 +254,7 @@ Resposta:
 }
 ```
 
-- `GET /article`
+- `GET /articles`
 
 Retorna todas os artigos criados
 

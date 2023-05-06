@@ -40,8 +40,8 @@ class UserController {
     }
 
     const authorization = request.headers["authorization"];
-      const userData = request.body as User;
-      const id = request.params.id;
+    const userData = request.body as User;
+    const id = request.params.id;
 
     try {
       const jwtData = jwt.verify(authorization!, JWT_PRIVATE_KEY) as JwtPayload;
@@ -54,13 +54,17 @@ class UserController {
 
       const user = await userService.update(userData, id);
 
+      if (!user) {
+        return response.status(404).json({ data: "user not found" });
+      }
+
       return response.status(200).json(user);
     } catch (error: any) {
       if (error.name == "JsonWebTokenError") {
         return response.status(400).json({ data: "malformed JsonWebToken" });
       }
-      if (error.meta.cause = "'Record to update not found.'") {
-        return response.status(400).json({ data: "user ID not found" });
+      if ((error.meta.cause = "'Record to update not found.'")) {
+        return response.status(404).json({ data: "user ID not found" });
       }
       return response.status(500);
     }
@@ -96,27 +100,27 @@ class UserController {
         return response.status(400).json({ data: "malformed JsonWebToken" });
       }
       if ((error.meta.cause = "Record to update not found.")) {
-        return response.status(400).json({ data: "user ID not found" });
+        return response.status(404).json({ data: "user ID not found" });
       }
       return response.status(500);
     }
   }
 
-  async getByUsername(request: Request, response: Response): Promise<Response> {
+  async get(request: Request, response: Response): Promise<Response> {
     try {
-      const user = await userService.getByUsername(request.params.username);
+      const usernameSearched = request.query.username;
 
-      if (!user) {
-        return response.status(400).json({ data: "username not found" });
+      if (usernameSearched) {
+        const user = await userService.getByUsername(
+          usernameSearched.toString()
+        );
+
+        if (!user) {
+          return response.status(404).json({ data: "username not found" });
+        }
+        return response.status(200).json(user);
       }
-      return response.status(200).json(user);
-    } catch (error) {
-      return response.status(500).json(error);
-    }
-  }
 
-  async getAll(request: Request, response: Response): Promise<Response> {
-    try {
       const users = await userService.getAll();
       return response.status(200).json(users);
     } catch (error) {

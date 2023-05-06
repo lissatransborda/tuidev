@@ -34,7 +34,9 @@ class UserService {
     const usersReturned: Array<PublicUserWithoutArticles> = [];
 
     usersDB.forEach((user: User) => {
-      usersReturned.push(new PublicUserWithoutArticles(user.id, user.username, user.name));
+      usersReturned.push(
+        new PublicUserWithoutArticles(user.id, user.username, user.name)
+      );
     });
 
     return usersReturned;
@@ -47,7 +49,12 @@ class UserService {
       return null;
     }
 
-    return new PublicUser(userDB.id, userDB.username, userDB.name, userDB.articles);
+    return new PublicUser(
+      userDB.id,
+      userDB.username,
+      userDB.name,
+      userDB.articles
+    );
   }
 
   async getByUsername(username: string) {
@@ -57,7 +64,12 @@ class UserService {
       return null;
     }
 
-    return new PublicUser(userDB.id, userDB.username, userDB.name, userDB.articles);
+    return new PublicUser(
+      userDB.id,
+      userDB.username,
+      userDB.name,
+      userDB.articles
+    );
   }
 }
 

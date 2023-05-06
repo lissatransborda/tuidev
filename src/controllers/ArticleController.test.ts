@@ -38,7 +38,7 @@ describe("test article create", () => {
     );
   });
 
-  test("It should response the POST method with a BadRequest by author doesn't exist", async () => {
+  test("It should response the POST method with a BadRequest by JWT and user being different", async () => {
     const randomUser = `test_username_${Math.random()}`;
 
     await request(app).post("/user").send({
@@ -179,7 +179,7 @@ describe("Test article update", () => {
       })
       .set("authorization", jwtData.body.data);
 
-    expect(updatedArticle.status).toEqual(400);
+    expect(updatedArticle.status).toEqual(404);
     expect(updatedArticle.body).toHaveProperty("data");
   });
 
@@ -260,7 +260,7 @@ describe("Test article update", () => {
 
 describe("Test article getAll", () => {
   test("It should response the GET method with a list of articles", async () => {
-    const articles = await request(app).get("/article");
+    const articles = await request(app).get("/articles");
 
     articles.body.forEach((article: Article) => {
       expect(article).toHaveProperty("title");
@@ -273,7 +273,7 @@ describe("Test article getAll", () => {
 
 describe("Test article getById", () => {
   test("It should response the GET method with one article", async () => {
-    const articles = await request(app).get("/article");
+    const articles = await request(app).get("/articles");
 
     const article = await request(app).get(`/article/${articles.body[0].id}`);
 
@@ -286,7 +286,7 @@ describe("Test article getById", () => {
   test("It should response the GET method with a BadRequest by wrong ID", async () => {
     const article = await request(app).get(`/article/${uuidv4()}`);
 
-    expect(article.status).toEqual(400);
+    expect(article.status).toEqual(404);
     expect(article.body).toHaveProperty("data");
   });
 });

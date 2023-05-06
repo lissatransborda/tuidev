@@ -50,29 +50,31 @@ class ArticleService {
     const articlesReturned: Array<PublicArticle> = [];
 
     articlesDB.forEach((article: PublicArticle) => {
-    const publicAuthor = new PublicUserWithoutArticles(
-      article.author.id,
-      article.author.username,
-      article.author.name
-    );
+      const publicAuthor = new PublicUserWithoutArticles(
+        article.author.id,
+        article.author.username,
+        article.author.name
+      );
 
-    articlesReturned.push(new PublicArticle(
-      article.id,
-      publicAuthor,
-      publicAuthor.id,
-      article.title,
-      article.body,
-      article.url
-    ));
+      articlesReturned.push(
+        new PublicArticle(
+          article.id,
+          publicAuthor,
+          publicAuthor.id,
+          article.title,
+          article.body,
+          article.url
+        )
+      );
     });
 
     return articlesReturned;
   }
   async getById(id: string) {
-    const articleDB = await articleRepository.getById(id) ?? null;
+    const articleDB = (await articleRepository.getById(id)) ?? null;
 
-    if (!articleDB){
-      return null
+    if (!articleDB) {
+      return null;
     }
 
     const publicAuthor = new PublicUserWithoutArticles(

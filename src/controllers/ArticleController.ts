@@ -33,7 +33,7 @@ class ArticleController {
       const author = await userService.getById(articleData.authorId);
 
       if (!author) {
-        return response.status(400).json({ data: "the author doesn't exist" });
+        return response.status(404).json({ data: "the author doesn't exist" });
       }
 
       articleData.url = `${author.username}/${articleData.title.replace(
@@ -69,7 +69,7 @@ class ArticleController {
       const author = await userService.getById(articleData.authorId);
 
       if (!author) {
-        return response.status(400).json({ data: "the author doesn't exist" });
+        return response.status(404).json({ data: "the author doesn't exist" });
       }
 
       articleData.url = `${author.username}/${articleData.title.replace(
@@ -84,7 +84,7 @@ class ArticleController {
         return response.status(400).json({ data: "malformed JsonWebToken" });
       }
       if ((error.meta.cause = "Record to update not found.")) {
-        return response.status(400).json({ data: "article ID not found" });
+        return response.status(404).json({ data: "article ID not found" });
       }
 
       return response.status(500);
@@ -96,7 +96,7 @@ class ArticleController {
       const article = await articleService.getById(request.params.id);
 
       if (!article) {
-        return response.status(400).json({ data: "article not found" });
+        return response.status(404).json({ data: "article not found" });
       }
 
       return response.status(200).json(article);

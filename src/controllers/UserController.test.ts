@@ -17,7 +17,7 @@ describe("test user create", () => {
     expect(newUser.body).toHaveProperty("name", "test_name");
   });
 
-  test("It should response the POST method with an Bad Requesta by the user alredy exists", async () => {
+  test("It should response the POST method with an Bad Request by the user alredy exists", async () => {
     const randomUser = `test_username_${Math.random()}`;
     const user = {
       username: randomUser,
@@ -56,7 +56,7 @@ describe("Test user update", () => {
     const jwtData = await request(app).post("/login").send({
       username: randomUser,
       password: "test_password",
-    })
+    });
 
     const updateUser = await request(app)
       .put(`/user/${newUser.body.id}`)
@@ -83,7 +83,7 @@ describe("Test user update", () => {
     const jwtData = await request(app).post("/login").send({
       username: randomUser,
       password: "test_password",
-    })
+    });
 
     const updateUser = await request(app)
       .put(`/user/${uuidv4()}`)
@@ -92,7 +92,6 @@ describe("Test user update", () => {
         name: "updated_test_name",
       })
       .set("authorization", jwtData.body.data);
-
 
     expect(updateUser.status).toEqual(400);
     expect(updateUser.body).toHaveProperty("data");
@@ -110,7 +109,7 @@ describe("Test user update", () => {
     const jwtData = await request(app).post("/login").send({
       username: randomUser,
       password: "test_password",
-    })
+    });
 
     const updateUser = await request(app)
       .put(`/user/${newUser.body.id}`)
@@ -119,7 +118,6 @@ describe("Test user update", () => {
         name: "updated_test_name",
       })
       .set("authorization", "A.B.C");
-
 
     expect(updateUser.status).toEqual(400);
     expect(updateUser.body).toHaveProperty("data");
@@ -157,7 +155,7 @@ describe("Test user change password", () => {
     });
 
     const updatedPassword = await request(app)
-      .put(`/user/password/${newUser.body.id}`)
+      .put(`/user/${newUser.body.id}/password`)
       .send({
         password: "new_password",
       })
@@ -166,7 +164,7 @@ describe("Test user change password", () => {
     expect(updatedPassword.body).toBe(true);
   });
 
-  test("It should response the PUT method with BadRequest by wrong user ID", async () => {
+  test("It should response the PUT method with BadRequest by user and JWT being different", async () => {
     const randomUser = `test_username_${Math.random()}`;
     await request(app).post("/user").send({
       username: randomUser,
@@ -180,7 +178,7 @@ describe("Test user change password", () => {
     });
 
     const updatedPassword = await request(app)
-      .put(`/user/password/${uuidv4()}`)
+      .put(`/user/${uuidv4()}/password`)
       .send({
         password: "new_password",
       })
@@ -204,7 +202,7 @@ describe("Test user change password", () => {
     });
 
     const updatedPassword = await request(app)
-      .put(`/user/password/${uuidv4()}`)
+      .put(`/user/${uuidv4()}/password`)
       .send({
         password: "new_password",
       });
@@ -227,7 +225,7 @@ describe("Test user change password", () => {
     });
 
     const updatedPassword = await request(app)
-      .put(`/user/password/${uuidv4()}`)
+      .put(`/user/${uuidv4()}/password`)
       .send({
         password: "new_password",
       })
@@ -238,7 +236,7 @@ describe("Test user change password", () => {
   });
 });
 
-describe("Test user getAll", () => {
+describe("Test user get", () => {
   test("It should response the GET method with a list of users", async () => {
     const users = await request(app).get("/user");
 
@@ -252,24 +250,23 @@ describe("Test user getAll", () => {
       expect(users.body).toEqual([]);
     }
   });
-});
 
-describe("Test user getByUsername", () => {
   test("It should response the GET method with one user", async () => {
     const users = await request(app).get("/user");
 
-    const user = await request(app).get(`/user/${users.body[0].username}`);
+    const user = await request(app).get(
+      `/user?username=${users.body[0].username}`
+    );
 
     expect(user.body).toHaveProperty("id");
     expect(user.body).toHaveProperty("username");
     expect(user.body).toHaveProperty("name");
-    expect(user.body).toHaveProperty("articles");
   });
 
-  test("It should response the GET method with a BadRequest by username not found", async () => {
-    const user = await request(app).get(`/user/${uuidv4()}`);
+  test("It should response the GET method with BadRequest because the user was not found", async () => {
+    const user = await request(app).get(`/user?username=${uuidv4()}`);
 
-    expect(user.status).toEqual(400);
+    expect(user.status).toEqual(404);
     expect(user.body).toHaveProperty("data");
   });
 });

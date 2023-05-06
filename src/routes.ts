@@ -11,8 +11,7 @@ const userController = new UserController();
 const articleController = new ArticleController();
 const loginController = new LoginController();
 
-router.get("/user", userController.getAll);
-router.get("/user/:username", userController.getByUsername);
+router.get("/user", userController.get);
 router.post(
   "/user",
   body("username").notEmpty().isString().escape(),
@@ -28,7 +27,7 @@ router.put(
   userController.update
 );
 router.put(
-  "/user/password/:id",
+  "/user/:id/password",
   body("password").notEmpty().isString().escape(),
   header("authorization").notEmpty().isJWT(),
   userController.changePassword
@@ -41,7 +40,7 @@ router.post(
   loginController.login
 );
 
-router.get("/article", articleController.getAll);
+router.get("/articles", articleController.getAll);
 router.get("/article/:id", articleController.getById);
 router.post(
   "/article",

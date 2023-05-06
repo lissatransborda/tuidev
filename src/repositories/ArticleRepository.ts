@@ -1,6 +1,6 @@
-import { v4 as uuidv4 } from "uuid";
 import { PrismaClient } from "@prisma/client";
 import { Article } from "../entities/Article";
+import { randomUUID } from "crypto";
 
 const prisma = new PrismaClient();
 
@@ -8,7 +8,7 @@ class ArticleRepository {
   async create(articleData: Article) {
     return (await prisma.article.create({
       data: {
-        id: uuidv4(),
+        id: randomUUID(),
         title: articleData.title,
         body: articleData.body,
         url: articleData.url,

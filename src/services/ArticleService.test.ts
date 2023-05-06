@@ -2,8 +2,8 @@ import { UserService } from "./UserService";
 import { ArticleService } from "./ArticleService";
 import { Article } from "../entities/Article";
 import { User } from "../entities/User";
-import { v4 as uuidv4 } from "uuid";
 import { PublicArticle } from "../entities/PublicArticle";
+import { randomUUID } from "crypto";
 
 describe("Test ArticleService", () => {
   test("It should return the created article", async () => {
@@ -15,7 +15,7 @@ describe("Test ArticleService", () => {
     const url = `${randomUser}/${title.replace(" ", "-")}`;
 
     const user = new User(
-      uuidv4(),
+      randomUUID(),
       randomUser,
       "test_password",
       "test_name",
@@ -24,7 +24,7 @@ describe("Test ArticleService", () => {
     const userCreated = await userService.create(user);
 
     const article = new Article(
-      uuidv4(),
+      randomUUID(),
       user,
       userCreated.id,
       "test_title",
@@ -48,7 +48,7 @@ describe("Test ArticleService", () => {
     const url = `${randomUser}/${title.replace(" ", "-")}`;
 
     const user = new User(
-      uuidv4(),
+      randomUUID(),
       randomUser,
       "test_password",
       "test_name",
@@ -58,7 +58,7 @@ describe("Test ArticleService", () => {
     const userCreated = await userService.create(user);
 
     const article = new Article(
-      uuidv4(),
+      randomUUID(),
       user,
       userCreated.id,
       "test_title",

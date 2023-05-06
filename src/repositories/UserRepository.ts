@@ -1,6 +1,6 @@
-import { v4 as uuidv4 } from "uuid";
 import { PrismaClient } from "@prisma/client";
 import { User } from "../entities/User";
+import { randomUUID } from "crypto";
 
 const prisma = new PrismaClient();
 
@@ -8,7 +8,7 @@ class UserRepository {
   async create(userData: User) {
     return (await prisma.user.create({
       data: {
-        id: uuidv4(),
+        id: randomUUID(),
         username: userData.username,
         password: userData.password,
         name: userData.name,

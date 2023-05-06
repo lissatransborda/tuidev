@@ -1,7 +1,7 @@
 const request = require("supertest");
+import { randomUUID } from "crypto";
 import { app } from "../../src/app";
 import { User } from "../entities/User";
-import { v4 as uuidv4 } from "uuid";
 
 describe("test user create", () => {
   test("It should response the POST method with the created user", async () => {
@@ -86,7 +86,7 @@ describe("Test user update", () => {
     });
 
     const updateUser = await request(app)
-      .put(`/user/${uuidv4()}`)
+      .put(`/user/${randomUUID()}`)
       .send({
         username: `updated_${randomUser}`,
         name: "updated_test_name",
@@ -131,7 +131,7 @@ describe("Test user update", () => {
       name: "test_name",
     });
 
-    const updateUser = await request(app).put(`/user/${uuidv4()}`).send({
+    const updateUser = await request(app).put(`/user/${randomUUID()}`).send({
       name: "updated_test_name",
     });
 
@@ -178,7 +178,7 @@ describe("Test user change password", () => {
     });
 
     const updatedPassword = await request(app)
-      .put(`/user/${uuidv4()}/password`)
+      .put(`/user/${randomUUID()}/password`)
       .send({
         password: "new_password",
       })
@@ -202,7 +202,7 @@ describe("Test user change password", () => {
     });
 
     const updatedPassword = await request(app)
-      .put(`/user/${uuidv4()}/password`)
+      .put(`/user/${randomUUID()}/password`)
       .send({
         password: "new_password",
       });
@@ -225,7 +225,7 @@ describe("Test user change password", () => {
     });
 
     const updatedPassword = await request(app)
-      .put(`/user/${uuidv4()}/password`)
+      .put(`/user/${randomUUID()}/password`)
       .send({
         password: "new_password",
       })
@@ -264,7 +264,7 @@ describe("Test user get", () => {
   });
 
   test("It should response the GET method with BadRequest because the user was not found", async () => {
-    const user = await request(app).get(`/user?username=${uuidv4()}`);
+    const user = await request(app).get(`/user?username=${randomUUID()}`);
 
     expect(user.status).toEqual(404);
     expect(user.body).toHaveProperty("data");

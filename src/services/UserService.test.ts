@@ -1,7 +1,6 @@
 import { UserService } from "./UserService";
 import { User } from "../entities/User";
-import { v4 as uuidv4 } from "uuid";
-import { PublicUser } from "../entities/PublicUser";
+import { randomUUID } from "crypto";
 
 describe("Test UserService", () => {
   test("It should return the created user", async () => {
@@ -9,7 +8,7 @@ describe("Test UserService", () => {
     const randomUser = `test_username_${Math.random()}`;
 
     const user = new User(
-      uuidv4(),
+      randomUUID(),
       randomUser,
       "test_password",
       "test_name",
@@ -28,7 +27,7 @@ describe("Test UserService", () => {
     const randomUser = `test_username_${Math.random()}`;
 
     const user = new User(
-      uuidv4(),
+      randomUUID(),
       randomUser,
       "test_password",
       "test_name",
@@ -49,7 +48,7 @@ describe("Test UserService", () => {
     const randomUser = `test_username_${Math.random()}`;
 
     const user = new User(
-      uuidv4(),
+      randomUUID(),
       randomUser,
       "test_password",
       "test_name",
@@ -84,7 +83,7 @@ describe("Test UserService", () => {
     const randomUser = `test_username_${Math.random()}`;
 
     const user = new User(
-      uuidv4(),
+      randomUUID(),
       randomUser,
       "test_password",
       "test_name",
@@ -112,7 +111,7 @@ describe("Test UserService", () => {
     const randomUser = `test_username_${Math.random()}`;
 
     const user = new User(
-      uuidv4(),
+      randomUUID(),
       randomUser,
       "test_password",
       "test_name",

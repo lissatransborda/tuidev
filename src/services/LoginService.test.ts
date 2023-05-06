@@ -4,8 +4,8 @@ const jwt = require("jsonwebtoken");
 import { LoginService } from "./LoginService";
 import { UserService } from "./UserService";
 import { User } from "../entities/User";
-import { v4 as uuidv4 } from "uuid";
 import { Login } from "../entities/Login";
+import { randomUUID } from "crypto";
 
 const JWT_PRIVATE_KEY = process.env.JWT_PRIVATE_KEY ?? "default";
 
@@ -16,7 +16,7 @@ describe("Test LoginService", () => {
 
     const randomUser = `test_username_${Math.random()}`;
     const user = new User(
-      uuidv4(),
+      randomUUID(),
       randomUser,
       "test_password",
       "test_name",
@@ -42,7 +42,7 @@ describe("Test LoginService", () => {
 
     const randomUser = `test_username_${Math.random()}`;
     const user = new User(
-      uuidv4(),
+      randomUUID(),
       randomUser,
       "test_password",
       "test_name",
@@ -63,7 +63,7 @@ describe("Test LoginService", () => {
 
     const randomUser = `test_username_${Math.random()}`;
     const user = new User(
-      uuidv4(),
+      randomUUID(),
       randomUser,
       "test_password",
       "test_name",

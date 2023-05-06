@@ -1,7 +1,7 @@
 const request = require("supertest");
 import { app } from "../app";
 import { Article } from "../entities/Article";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "crypto";
 
 describe("test article create", () => {
   test("It should response the POST method with the created article", async () => {
@@ -59,7 +59,7 @@ describe("test article create", () => {
       .send({
         title: articleTitle,
         body: "test_body",
-        authorId: uuidv4(),
+        authorId: randomUUID(),
       })
       .set("authorization", jwtData.body.data);
 
@@ -175,7 +175,7 @@ describe("Test article update", () => {
       .send({
         title: `updated_${articleTitle}`,
         body: "test_body",
-        authorId: uuidv4(),
+        authorId: randomUUID(),
       })
       .set("authorization", jwtData.body.data);
 
@@ -284,7 +284,7 @@ describe("Test article getById", () => {
   });
 
   test("It should response the GET method with a BadRequest by wrong ID", async () => {
-    const article = await request(app).get(`/article/${uuidv4()}`);
+    const article = await request(app).get(`/article/${randomUUID()}`);
 
     expect(article.status).toEqual(404);
     expect(article.body).toHaveProperty("data");

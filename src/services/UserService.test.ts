@@ -20,6 +20,8 @@ describe("Test UserService", () => {
     expect(userCreated).toHaveProperty("id");
     expect(userCreated).toHaveProperty("username");
     expect(userCreated).toHaveProperty("name");
+    expect(userCreated).toHaveProperty("created_at");
+    expect(userCreated).toHaveProperty("updated_at");
   });
 
   test("It should return the updated user", async () => {
@@ -41,6 +43,8 @@ describe("Test UserService", () => {
     expect(userUpdated).toHaveProperty("id");
     expect(userUpdated).toHaveProperty("username");
     expect(userUpdated).toHaveProperty("name");
+    expect(userUpdated).toHaveProperty("created_at");
+    expect(userUpdated).toHaveProperty("updated_at");
   });
 
   test("It should return the updated password", async () => {
@@ -74,6 +78,7 @@ describe("Test UserService", () => {
         expect(user).toHaveProperty("id");
         expect(user).toHaveProperty("username");
         expect(user).toHaveProperty("name");
+        expect(user).toHaveProperty("created_at");
       });
     }
   });
@@ -97,6 +102,7 @@ describe("Test UserService", () => {
     expect(userSearched).toHaveProperty("id");
     expect(userSearched).toHaveProperty("username");
     expect(userSearched).toHaveProperty("name");
+    expect(userSearched).toHaveProperty("created_at");
   });
 
   test("It should return null using getUserById", async () => {
@@ -125,6 +131,7 @@ describe("Test UserService", () => {
     expect(userSearched).toHaveProperty("id");
     expect(userSearched).toHaveProperty("username");
     expect(userSearched).toHaveProperty("name");
+    expect(userSearched).toHaveProperty("created_at");
   });
 
   test("It should return null using getUserByUsername", async () => {

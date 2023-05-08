@@ -16,6 +16,8 @@ model User {
   password String
   name  String
   articles Article[]
+  created_at DateTime
+  updated_at DateTime
 }
 
 model Article{
@@ -25,4 +27,6 @@ model Article{
   title String
   body String
   url String
+  created_at DateTime
+  updated_at DateTime
 }

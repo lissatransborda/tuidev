@@ -6,4 +6,7 @@ export interface User {
   password?: string;
   name: string;
   articles?: Array<Article>;
+
+  created_at?: Date;
+  updated_at?: Date;
 }

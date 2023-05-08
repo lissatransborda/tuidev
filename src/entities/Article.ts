@@ -7,4 +7,7 @@ export interface Article {
   title: string;
   body: string;
   url: string;
+
+  created_at?: Date;
+  updated_at?: Date;
 }

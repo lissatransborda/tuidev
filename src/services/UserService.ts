@@ -13,6 +13,8 @@ class UserService {
       id: userDB.id,
       username: userDB.username,
       name: userDB.name,
+      created_at: userDB.created_at,
+      updated_at: userDB.updated_at,
     };
   }
 
@@ -24,6 +26,8 @@ class UserService {
       username: userDB.username,
       name: userDB.name,
       articles: userDB.articles,
+      created_at: userDB.created_at,
+      updated_at: userDB.updated_at,
     };
   }
 
@@ -41,6 +45,7 @@ class UserService {
         id: user.id,
         username: user.username,
         name: user.name,
+        created_at: user.created_at,
       });
     });
 
@@ -59,6 +64,7 @@ class UserService {
       username: userDB.username,
       name: userDB.name,
       articles: userDB.articles,
+      created_at: userDB.created_at,
     };
   }
 
@@ -74,6 +80,7 @@ class UserService {
       username: userDB.username,
       name: userDB.name,
       articles: userDB.articles,
+      created_at: userDB.created_at,
     };
   }
 }

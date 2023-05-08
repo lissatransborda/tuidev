@@ -33,6 +33,8 @@ describe("test article create", () => {
     expect(newArticle.body).toHaveProperty("title", "test_title");
     expect(newArticle.body).toHaveProperty("body", "test_body");
     expect(newArticle.body).toHaveProperty("url");
+    expect(newArticle.body).toHaveProperty("created_at");
+    expect(newArticle.body).toHaveProperty("updated_at");
   });
 
   test("It should response the POST method with a BadRequest by JWT and user being different", async () => {
@@ -137,6 +139,8 @@ describe("Test article update", () => {
     expect(updatedArticle.body).toHaveProperty("title", "updated_test_title");
     expect(updatedArticle.body).toHaveProperty("body", "test_body");
     expect(updatedArticle.body).toHaveProperty("url");
+    expect(updatedArticle.body).toHaveProperty("created_at");
+    expect(updatedArticle.body).toHaveProperty("updated_at");
   });
 
   test("It should response the PUT method with a BadRequest by author doesn't exist", async () => {
@@ -261,6 +265,8 @@ describe("Test article getAll", () => {
       expect(article).toHaveProperty("body");
       expect(article).toHaveProperty("authorId");
       expect(article).toHaveProperty("author");
+      expect(article).toHaveProperty("created_at");
+      expect(article).toHaveProperty("updated_at");
     });
   });
 });
@@ -275,6 +281,8 @@ describe("Test article getById", () => {
     expect(article.body).toHaveProperty("body");
     expect(article.body).toHaveProperty("authorId");
     expect(article.body).toHaveProperty("author");
+    expect(article.body).toHaveProperty("created_at");
+    expect(article.body).toHaveProperty("updated_at");
   });
 
   test("It should response the GET method with a BadRequest by wrong ID", async () => {

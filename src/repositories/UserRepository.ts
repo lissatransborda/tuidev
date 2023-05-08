@@ -13,6 +13,8 @@ class UserRepository {
         password: userData.password!,
         name: userData.name,
         articles: {},
+        created_at: new Date(),
+        updated_at: new Date(),
       },
     })) as User;
   }
@@ -25,6 +27,7 @@ class UserRepository {
       data: {
         username: userData.username,
         name: userData.name,
+        updated_at: new Date(),
       },
     })) as User;
   }
@@ -36,6 +39,7 @@ class UserRepository {
       },
       data: {
         password: password,
+        updated_at: new Date(),
       },
     });
   }

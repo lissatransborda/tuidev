@@ -36,6 +36,8 @@ describe("Test ArticleService", () => {
     expect(articleCreated).toHaveProperty("body");
     expect(articleCreated).toHaveProperty("authorId");
     expect(articleCreated).toHaveProperty("author");
+    expect(articleCreated).toHaveProperty("created_at");
+    expect(articleCreated).toHaveProperty("updated_at");
   });
 
   test("It should return the updated article", async () => {
@@ -75,6 +77,8 @@ describe("Test ArticleService", () => {
     expect(articleUpdated).toHaveProperty("body");
     expect(articleUpdated).toHaveProperty("authorId");
     expect(articleUpdated).toHaveProperty("author");
+    expect(articleCreated).toHaveProperty("created_at");
+    expect(articleCreated).toHaveProperty("updated_at");
   });
 
   test("It should return the list of users", async () => {
@@ -87,6 +91,8 @@ describe("Test ArticleService", () => {
         expect(article).toHaveProperty("body");
         expect(article).toHaveProperty("authorId");
         expect(article).toHaveProperty("author");
+        expect(article).toHaveProperty("created_at");
+        expect(article).toHaveProperty("updated_at");
       });
     }
   });
@@ -100,6 +106,8 @@ describe("Test ArticleService", () => {
     expect(article).toHaveProperty("body");
     expect(article).toHaveProperty("authorId");
     expect(article).toHaveProperty("author");
+    expect(article).toHaveProperty("created_at");
+    expect(article).toHaveProperty("updated_at");
   });
 
   test("It should return a null because the article doesn't exist", async () => {

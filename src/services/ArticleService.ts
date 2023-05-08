@@ -12,6 +12,7 @@ class ArticleService {
       id: articleCreated.author.id,
       username: articleCreated.author.username,
       name: articleCreated.author.name,
+      created_at: articleCreated.author.created_at,
     };
 
     return <Article>{
@@ -21,6 +22,8 @@ class ArticleService {
       title: articleCreated.title,
       body: articleCreated.body,
       url: articleCreated.url,
+      created_at: articleCreated.created_at,
+      updated_at: articleCreated.updated_at,
     };
   }
 
@@ -31,6 +34,7 @@ class ArticleService {
       id: articleUpdated.author.id,
       username: articleUpdated.author.username,
       name: articleUpdated.author.name,
+      created_at: articleUpdated.author.created_at,
     };
 
     return <Article>{
@@ -40,6 +44,8 @@ class ArticleService {
       title: articleUpdated.title,
       body: articleUpdated.body,
       url: articleUpdated.url,
+      created_at: articleUpdated.created_at,
+      updated_at: articleUpdated.updated_at,
     };
   }
 
@@ -52,6 +58,7 @@ class ArticleService {
         id: article.author.id,
         username: article.author.username,
         name: article.author.name,
+        created_at: article.author.created_at,
       };
 
       articlesReturned.push(<Article>{
@@ -61,6 +68,8 @@ class ArticleService {
         title: article.title,
         body: article.body,
         url: article.url,
+        created_at: article.created_at,
+        updated_at: article.updated_at,
       });
     });
 
@@ -77,6 +86,7 @@ class ArticleService {
       id: articleDB.author.id,
       username: articleDB.author.username,
       name: articleDB.author.name,
+      created_at: articleDB.author.created_at,
     };
 
     return <Article>{
@@ -86,6 +96,8 @@ class ArticleService {
       title: articleDB.title,
       body: articleDB.body,
       url: articleDB.url,
+      created_at: articleDB.created_at,
+      updated_at: articleDB.updated_at,
     };
   }
 }

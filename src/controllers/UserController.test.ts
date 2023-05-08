@@ -15,6 +15,8 @@ describe("test user create", () => {
     expect(newUser.body).toHaveProperty("id");
     expect(newUser.body).toHaveProperty("username", randomUser);
     expect(newUser.body).toHaveProperty("name", "test_name");
+    expect(newUser.body).toHaveProperty("created_at");
+    expect(newUser.body).toHaveProperty("updated_at");
   });
 
   test("It should response the POST method with an Bad Request by the user alredy exists", async () => {
@@ -69,6 +71,8 @@ describe("Test user update", () => {
     expect(updateUser.body).toHaveProperty("id");
     expect(updateUser.body).toHaveProperty("username", `updated_${randomUser}`);
     expect(updateUser.body).toHaveProperty("name", "updated_test_name");
+    expect(updateUser.body).toHaveProperty("created_at");
+    expect(updateUser.body).toHaveProperty("updated_at");
   });
 
   test("It should response the PUT method with a BadRequest by user and JWT different", async () => {
@@ -245,6 +249,7 @@ describe("Test user get", () => {
         expect(user).toHaveProperty("id");
         expect(user).toHaveProperty("username");
         expect(user).toHaveProperty("name");
+        expect(user).toHaveProperty("created_at");
       });
     } else {
       expect(users.body).toEqual([]);
@@ -261,6 +266,7 @@ describe("Test user get", () => {
     expect(user.body).toHaveProperty("id");
     expect(user.body).toHaveProperty("username");
     expect(user.body).toHaveProperty("name");
+    expect(user.body).toHaveProperty("created_at");
   });
 
   test("It should response the GET method with BadRequest because the user was not found", async () => {

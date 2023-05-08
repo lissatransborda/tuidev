@@ -12,6 +12,8 @@ class ArticleRepository {
         title: articleData.title,
         body: articleData.body,
         url: articleData.url,
+        created_at: new Date(),
+        updated_at: new Date(),
         author: {
           connect: {
             id: articleData.authorId,
@@ -33,6 +35,7 @@ class ArticleRepository {
         title: articleData.title,
         body: articleData.body,
         url: articleData.url,
+        updated_at: new Date(),
       },
       include: {
         author: true,
